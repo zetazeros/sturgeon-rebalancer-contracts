@@ -13,3 +13,14 @@ import "./VaultGovernance.sol";
 
 abstract contract Vault is IVault, ERC165 {
     using SafeERC20 for IERC20;
+
+    IVaultGovernance internal _vaultGovernance;
+    address[] internal _vaultTokens;
+    mapping(address => bool) internal _vaultTokensIndex;
+    uint256 internal _nft;
+    uint256[] internal _pullExistentials;
+    
+    constructor() {
+        // lock initialization and thus all mutations for any deployed Vault
+        _nft = type(uint256).max;
+    }
