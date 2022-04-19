@@ -24,3 +24,11 @@ abstract contract Vault is IVault, ERC165 {
         // lock initialization and thus all mutations for any deployed Vault
         _nft = type(uint256).max;
     }
+
+    function initialized() external view returns (bool) {
+        return _nft != 0;
+    }
+    
+    function isVaultToken(address token) public view returns (bool) {
+        return _vaultTokensIndex[token];
+    }
