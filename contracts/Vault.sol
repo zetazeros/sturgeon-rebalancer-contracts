@@ -32,3 +32,11 @@ abstract contract Vault is IVault, ERC165 {
     function isVaultToken(address token) public view returns (bool) {
         return _vaultTokensIndex[token];
     }
+
+    function vaultGovernance() external view returns (IVaultGovernance) {
+        return _vaultGovernance;
+    }
+
+    function vaultTokens() external view returns (address[] memory) {
+        return _vaultTokens;
+    }
