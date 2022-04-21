@@ -40,3 +40,13 @@ abstract contract Vault is IVault, ERC165 {
     function vaultTokens() external view returns (address[] memory) {
         return _vaultTokens;
     }
+
+    function nft() external view returns (uint256) {
+        return _nft;
+    }
+
+    function tvl() public view virtual returns (uint256[] memory minTokenAmounts, uint256[] memory maxTokenAmounts);
+
+    function pullExistentials() external view returns (uint256[] memory) {
+        return _pullExistentials;
+    }
