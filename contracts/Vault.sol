@@ -73,3 +73,27 @@ abstract contract Vault is IVault, ERC165 {
                 ExceptionsLibrary.FORBIDDEN
             );
         }
+
+        _vaultGovernance = IVaultGovernance(msg.sender);
+        _vaultTokens = vaultTokens_;
+        _nft = nft_;
+        uint256 len = _vaultTokens.length;
+        for (uint256 i = 0; i < len; ++i) {
+            _vaultTokensIndex[vaultTokens_[i]] = int256(i + 1);
+
+            IERC20Metadata token = IERC20Metadata(vaultTokens_[i]);
+            _pullExistentials.push(10**(token.decimals() / 2));
+        }
+        emit Initialized(tx.origin, msg.sender, vaultTokens_, nft_);
+    }
+
+    // --------------------------  EVENTS  --------------------------
+
+    /// @notice Emitted when Vault is intialized
+    /// @param origin Origin of the transaction (tx.origin)
+    /// @param sender Sender of the call (msg.sender)
+    /// @param vaultTokens_ ERC20 tokens under the vault management
+    /// @param nft_ VaultRegistry NFT assigned to the vault
+    
+    event Initialized(address indexed origin, address indexed sender, address[] vaultTokens_, uint256 nft_);
+}
