@@ -46,3 +46,9 @@ contract YearnVault is IYearnVault, IntegrationVault {
             require(_yTokens[i] != address(0), ExceptionsLibrary.ADDRESS_ZERO);
         }
     }
+
+    function _push(uint256[] memory tokenAmounts, bytes memory)
+        internal
+        override
+        returns (uint256[] memory actualTokenAmounts)
+    {
