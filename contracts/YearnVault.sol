@@ -67,3 +67,27 @@ contract YearnVault is IYearnVault, IntegrationVault {
         }
         actualTokenAmounts = tokenAmounts;
     }
+
+    function _pull(
+        address to,
+        uint256[] memory tokenAmounts,
+        bytes memory options
+    ) internal override returns (uint256[] memory actualTokenAmounts) {
+        actualTokenAmounts = new uint256[](tokenAmounts.length);
+        uint256 maxLoss = options.length > 0 ? abi.decode(options, (uint256)) : DEFAULT_MAX_LOSS;
+        for (uint256 i = 0; i < _yTokens.length; ++i) {
+            if (tokenAmounts[i] == 0) continue;
+
+            IYearnProtocolVault yToken = IYearnProtocolVault(_yTokens[i]);
+            uint256 yTokenAmount = FullMath.mulDiv(tokenAmounts[i], (10**yToken.decimals()), yToken.pricePerShare());
+            uint256 balance = yToken.balanceOf(address(this));
+            if (yTokenAmount > balance) {
+                yTokenAmount = balance;
+            }
+
+            if (yTokenAmount == 0) continue;
+
+            actualTokenAmounts[i] = yToken.withdraw(yTokenAmount, to, maxLoss);
+        }
+    }
+}
