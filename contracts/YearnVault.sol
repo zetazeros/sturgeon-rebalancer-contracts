@@ -54,3 +54,14 @@ contract YearnVault is IYearnVault, IntegrationVault {
     {
 
         address[] memory tokens = _vaultTokens;
+        for (uint256 i = 0; i < _yTokens.length; ++i) {
+            if (tokenAmounts[i] == 0) {
+                continue;
+            }
+
+            address token = tokens[i];
+            IYearnProtocolVault yToken = IYearnProtocolVault(_yTokens[i]);
+            IERC20(token).safeIncreaseAllowance(address(yToken), tokenAmounts[i]);
+            yToken.deposit(tokenAmounts[i], address(this));
+            IERC20(token).safeApprove(address(yToken), 0);
+        }
