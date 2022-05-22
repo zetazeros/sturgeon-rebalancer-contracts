@@ -27,3 +27,13 @@ contract YearnVault is IYearnVault, IntegrationVault {
         }
         maxTokenAmounts = minTokenAmounts;
     }
+
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        virtual
+        override(IERC165, IntegrationVault)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId) || type(IYearnVault).interfaceId == interfaceId;
+    }
