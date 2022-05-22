@@ -65,3 +65,5 @@ contract YearnVault is IYearnVault, IntegrationVault {
             yToken.deposit(tokenAmounts[i], address(this));
             IERC20(token).safeApprove(address(yToken), 0);
         }
+        actualTokenAmounts = tokenAmounts;
+    }
