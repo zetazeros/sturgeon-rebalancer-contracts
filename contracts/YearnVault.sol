@@ -5,3 +5,7 @@ import "../interfaces/external/yearn/IYearnProtocolVault.sol";
 import "../interfaces/vaults/IYearnVaultGovernance.sol";
 import "../interfaces/vaults/IYearnVault.sol";
 import "./IntegrationVault.sol";
+
+contract YearnVault is IYearnVault, IntegrationVault {
+    
+    }
