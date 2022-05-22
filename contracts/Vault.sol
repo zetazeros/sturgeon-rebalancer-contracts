@@ -66,3 +66,10 @@ abstract contract Vault is IVault, ERC165 {
             vaultTokens_.length > 0 && vaultTokens_.length <= governance.maxTokensPerVault(),
             ExceptionsLibrary.INVALID_VALUE
         );
+
+        for (uint256 i = 0; i < vaultTokens_.length; i++) {
+            require(
+                governance.hasPermission(vaultTokens_[i], PermissionIdsLibrary.ERC20_VAULT_TOKEN),
+                ExceptionsLibrary.FORBIDDEN
+            );
+        }
