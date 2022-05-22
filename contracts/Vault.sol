@@ -54,3 +54,8 @@ abstract contract Vault is IVault, ERC165 {
     function supportsInterface(bytes4 interfaceId) public view virtual override(IERC165, ERC165) returns (bool) {
         return super.supportsInterface(interfaceId) || (interfaceId == type(IVault).interfaceId);
     }
+
+                            // ------- Internal, Mutating
+
+    function _initialize(address[] memory vaultTokens_, uint256 nft_) internal virtual {
+        require(_nft == 0, ExceptionsLibrary.INIT);
